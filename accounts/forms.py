@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 from .models import User
+from farmers.models import Farmer
 
 
 class LoginForm(AuthenticationForm):
@@ -49,4 +50,11 @@ class PublicUserRegisterForm(UserCreationForm):
         user.role = User.Role.FARMER
         if commit:
             user.save()
+            Farmer.objects.create(
+                user=user,
+                farmer_id=f'F{user.id:04}',
+                name=f'{user.first_name} {user.last_name}'.strip() or user.username,
+                phone=user.phone or '',
+                village='',
+            )
         return user
