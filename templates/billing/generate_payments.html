@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Generate Billing{% endblock %}
+{% block content %}
+<h2 class="page-header">Generate Monthly Billing</h2>
+<div class="card p-4" style="max-width: 500px;">
+    <p>This will calculate billing for all active farmers for the selected month based on milk entries and deductions.</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Month</label>
+            <input type="month" name="month" value="{{ month_date|date:'Y-m' }}" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">Generate Billing</button>
+        <a href="{% url 'billing:payments' %}" class="btn btn-secondary">Back</a>
+    </form>
+</div>
+{% endblock %}

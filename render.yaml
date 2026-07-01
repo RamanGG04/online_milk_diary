@@ -1,0 +1,28 @@
+databases:
+  - name: milk-diary-db
+    plan: free
+    databaseName: milk_diary
+    user: milk_diary_user
+
+services:
+  - type: web
+    name: online-milk-diary
+    runtime: python
+    plan: free
+    buildCommand: './build.sh'
+    startCommand: 'gunicorn config.wsgi:application --bind 0.0.0.0:$PORT'
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: DATABASE_URL
+        fromDatabase:
+          name: milk-diary-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: 'False'
+      - key: ALLOWED_HOSTS
+        value: '.onrender.com'
+      - key: CREATE_SUPERUSER
+        value: 'true'

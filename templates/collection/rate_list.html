@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Rate Chart{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between page-header"><h2>Rate Chart</h2><a href="{% url 'collection:rate_create' %}" class="btn btn-primary">Add Rate</a></div>
+<div class="card p-3">
+    <table class="table"><thead><tr><th>Name</th><th>Min Fat</th><th>Max Fat</th><th>Price/Liter</th><th>Active</th></tr></thead>
+    <tbody>{% for r in rates %}<tr><td>{{ r.name }}</td><td>{{ r.min_fat }}%</td><td>{{ r.max_fat }}%</td><td>₹{{ r.price_per_liter }}</td><td>{% if r.is_active %}Yes{% else %}No{% endif %}</td></tr>{% empty %}<tr><td colspan="5">No rates configured.</td></tr>{% endfor %}</tbody></table>
+</div>
+{% endblock %}

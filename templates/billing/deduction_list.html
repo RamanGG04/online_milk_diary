@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Deductions{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between page-header"><h2>Deductions</h2><a href="{% url 'billing:deduction_create' %}" class="btn btn-primary">Add Deduction</a></div>
+<div class="card p-3">
+    <table class="table"><thead><tr><th>Farmer</th><th>Type</th><th>Amount</th><th>Month</th><th>Description</th></tr></thead>
+    <tbody>{% for d in deductions %}<tr><td>{{ d.farmer.name }}</td><td>{{ d.get_deduction_type_display }}</td><td>₹{{ d.amount }}</td><td>{{ d.month|date:"M Y" }}</td><td>{{ d.description }}</td></tr>{% empty %}<tr><td colspan="5">No deductions.</td></tr>{% endfor %}</tbody></table>
+</div>
+{% endblock %}

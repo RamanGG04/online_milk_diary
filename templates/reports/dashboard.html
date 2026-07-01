@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2 class="page-header"><i class="bi bi-speedometer2"></i> Dashboard</h2>
+
+{% if role == 'farmer' %}
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card stat-card p-3">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary me-3"><i class="bi bi-droplet"></i></div>
+                <div><h6 class="text-muted mb-0">Today (Liters)</h6><h3>{{ today_liters }}</h3></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card p-3">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon bg-success bg-opacity-10 text-success me-3"><i class="bi bi-calendar-month"></i></div>
+                <div><h6 class="text-muted mb-0">This Month (Liters)</h6><h3>{{ month_liters }}</h3></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card p-3">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon bg-warning bg-opacity-10 text-warning me-3"><i class="bi bi-currency-rupee"></i></div>
+                <div><h6 class="text-muted mb-0">This Month (Amount)</h6><h3>₹{{ month_amount }}</h3></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-7">
+        <div class="card p-3"><h5>Recent Milk Entries</h5>
+            <table class="table table-sm"><thead><tr><th>Date</th><th>Shift</th><th>Liters</th><th>Amount</th></tr></thead>
+            <tbody>{% for e in recent_entries %}<tr><td>{{ e.date }}</td><td>{{ e.get_shift_display }}</td><td>{{ e.quantity_liters }}</td><td>₹{{ e.total_amount }}</td></tr>{% empty %}<tr><td colspan="4">No entries yet.</td></tr>{% endfor %}</tbody></table>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card p-3"><h5>Recent Payments</h5>
+            <table class="table table-sm"><thead><tr><th>Month</th><th>Net</th><th>Status</th></tr></thead>
+            <tbody>{% for p in recent_payments %}<tr><td>{{ p.month|date:"M Y" }}</td><td>₹{{ p.net_amount }}</td><td><span class="badge {% if p.status == 'paid' %}bg-success{% else %}bg-warning text-dark{% endif %}">{{ p.get_status_display }}</span></td></tr>{% empty %}<tr><td colspan="3">No payments yet.</td></tr>{% endfor %}</tbody></table>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row g-3 mb-4">
+    <div class="col-md-3"><div class="card stat-card p-3"><h6 class="text-muted">Today's Collection</h6><h3>{{ today_stats.liters|default:0 }} L</h3></div></div>
+    <div class="col-md-3"><div class="card stat-card p-3"><h6 class="text-muted">Today's Amount</h6><h3>₹{{ today_stats.amount|default:0 }}</h3></div></div>
+    <div class="col-md-3"><div class="card stat-card p-3"><h6 class="text-muted">Active Farmers</h6><h3>{{ active_farmers }}</h3></div></div>
+    <div class="col-md-3"><div class="card stat-card p-3"><h6 class="text-muted">Pending Payments</h6><h3>{{ pending_payments }}</h3></div></div>
+</div>
+<div class="row g-3 mb-4">
+    <div class="col-md-8"><div class="card p-3"><h5>Last 7 Days Collection (Liters)</h5><canvas id="collectionChart" height="100"></canvas></div></div>
+    <div class="col-md-4"><div class="card p-3"><h5>This Month</h5><p class="mb-1"><strong>Total Liters:</strong> {{ month_stats.liters|default:0 }}</p><p><strong>Total Amount:</strong> ₹{{ month_stats.amount|default:0 }}</p></div></div>
+</div>
+<div class="card p-3"><h5>Recent Entries</h5>
+    <table class="table table-hover"><thead><tr><th>Farmer</th><th>Date</th><th>Shift</th><th>Liters</th><th>Amount</th></tr></thead>
+    <tbody>{% for e in recent_entries %}<tr><td>{{ e.farmer.name }}</td><td>{{ e.date }}</td><td>{{ e.get_shift_display }}</td><td>{{ e.quantity_liters }}</td><td>₹{{ e.total_amount }}</td></tr>{% empty %}<tr><td colspan="5">No entries yet.</td></tr>{% endfor %}</tbody></table>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if role == 'staff' %}
+<script>
+new Chart(document.getElementById('collectionChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ chart_labels|safe }},
+        datasets: [{ label: 'Liters', data: {{ chart_data|safe }}, backgroundColor: '#0d6efd' }]
+    },
+    options: { scales: { y: { beginAtZero: true } } }
+});
+</script>
+{% endif %}
+{% endblock %}

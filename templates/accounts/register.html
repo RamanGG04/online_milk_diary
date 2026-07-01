@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Register User{% endblock %}
+{% block content %}
+<h2 class="page-header">Register New User</h2>
+<div class="alert alert-info">
+    Admins can add new users from this page. If you are not logged in, please login as an admin first.
+</div>
+<div class="card p-4" style="max-width: 600px;">
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="mb-3">
+            <label class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Create User</button>
+    </form>
+</div>
+{% endblock %}

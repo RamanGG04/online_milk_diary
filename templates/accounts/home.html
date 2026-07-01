@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome - Online Milk Diary{% endblock %}
+
+{% block auth_content %}
+<nav class="home-navbar navbar navbar-expand-lg navbar-light shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'home' %}">
+            <i class="bi bi-droplet-fill text-primary fs-4 me-2"></i>
+            Online Milk Diary
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#homeNavbar" aria-controls="homeNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="homeNavbar">
+            <ul class="navbar-nav align-items-center">
+                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'accounts:auth' %}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'accounts:farmer_register' %}">Register</a></li>
+                <li class="nav-item ms-2"><a class="btn btn-brand btn-sm" href="{% url 'accounts:login' %}?role=admin">Admin Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="home-hero py-5">
+    <div class="container">
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-6">
+                <div class="hero-card p-5">
+                    <span class="bg-brand mb-3">Dairy Cooperative Solution</span>
+                    <h1 class="display-5 fw-bold">Online Milk Diary</h1>
+                    <p class="lead text-muted mb-4">A modern web portal for milk collection, billing, farmer reporting, and cooperative management.</p>
+                    <div class="d-flex flex-column flex-sm-row gap-3 mb-4">
+                        <a href="{% url 'accounts:auth' %}" class="btn btn-brand btn-lg">Login</a>
+                        <a href="{% url 'accounts:farmer_register' %}" class="btn btn-outline-brand btn-lg">Register as Farmer</a>
+                    </div>
+                    <p class="text-muted small">Click login to sign in, or register as a new farmer account. Admin access is managed separately.</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="feature-grid" id="features">
+                    <div class="feature-card p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-speedometer2 text-primary fs-3"></i>
+                            <h5 class="ms-3 mb-0">Dashboard Insights</h5>
+                        </div>
+                        <p class="text-muted">Real-time cooperative reports and easy access to milk entries and payments.</p>
+                    </div>
+                    <div class="feature-card p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-people text-primary fs-3"></i>
+                            <h5 class="ms-3 mb-0">Farmer Management</h5>
+                        </div>
+                        <p class="text-muted">Register and manage farmer accounts, collection centers, and cooperative staff.</p>
+                    </div>
+                    <div class="feature-card p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-file-earmark-text text-primary fs-3"></i>
+                            <h5 class="ms-3 mb-0">Billing & Reports</h5>
+                        </div>
+                        <p class="text-muted">Generate monthly payments, deductions, and daily reports with ease.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center mt-5" id="about">
+            <div class="col-lg-5">
+                <h2 class="fw-bold">Built for modern dairy cooperatives</h2>
+                <p class="text-muted">Efficiently manage daily milk collection, automatic rate calculations, billing cycles, and farm-level reporting from a single dashboard.</p>
+            </div>
+            <div class="col-lg-7">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="feature-card p-4">
+                            <h6 class="fw-semibold">Mobile-friendly</h6>
+                            <p class="small text-muted mb-0">Access the portal smoothly from your tablet or phone.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-card p-4">
+                            <h6 class="fw-semibold">Secure access</h6>
+                            <p class="small text-muted mb-0">Separate admin and user authentication flows for added control.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row how-it-works-section mt-5">
+            <div class="col-12 text-center mb-4">
+                <h2 class="fw-bold">How it works</h2>
+                <p class="text-muted">A simple three-step workflow for cooperatives, staff, and farmers.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="how-it-works-card p-4 h-100 text-center">
+                    <div class="how-icon mb-3"><i class="bi bi-journal-text"></i></div>
+                    <h5>Create records</h5>
+                    <p class="text-muted small">Record milk collection, center details, and rate charts from the dashboard.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="how-it-works-card p-4 h-100 text-center">
+                    <div class="how-icon mb-3"><i class="bi bi-calculator"></i></div>
+                    <h5>Generate billing</h5>
+                    <p class="text-muted small">Automatically calculate payments, deductions, and generate monthly statements.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="how-it-works-card p-4 h-100 text-center">
+                    <div class="how-icon mb-3"><i class="bi bi-bar-chart-line"></i></div>
+                    <h5>Review reports</h5>
+                    <p class="text-muted small">View daily and farmer ledger reports with export-ready data.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="home-footer py-5">
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-md-4">
+                <h5 class="mb-3">Online Milk Diary</h5>
+                <p class="text-muted">A simple dairy cooperative management system for milk collection, billing, and farmer reporting.</p>
+            </div>
+            <div class="col-md-4">
+                <h6>Quick Links</h6>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="{% url 'accounts:auth' %}">Login</a></li>
+                    <li><a href="{% url 'accounts:login' %}?role=admin">Admin Login</a></li>
+                    <li><a href="#features">Features</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h6>Contact</h6>
+                <p class="text-muted small mb-1">Need help setting up? Use the README or contact your project supervisor.</p>
+                <p class="text-muted small mb-0">Designed for college project deployment.</p>
+            </div>
+        </div>
+        <div class="border-top mt-4 pt-4 text-center small text-muted">
+            © 2026 Online Milk Diary. All rights reserved.
+        </div>
+    </div>
+</footer>
+{% endblock %}

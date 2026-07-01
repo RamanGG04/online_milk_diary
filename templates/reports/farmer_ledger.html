@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Farmer Ledger{% endblock %}
+{% block content %}
+<h2 class="page-header">Ledger — {{ farmer.name }} ({{ farmer.farmer_id }})</h2>
+<form class="row g-2 mb-3" method="get">
+    <div class="col-auto"><input type="month" name="month" value="{{ month }}" class="form-control"></div>
+    <div class="col-auto"><button class="btn btn-outline-secondary">Filter</button></div>
+</form>
+<div class="row g-3 mb-3">
+    <div class="col-md-6"><div class="card p-3"><h6>Total Liters</h6><h4>{{ totals.liters|default:0 }}</h4></div></div>
+    <div class="col-md-6"><div class="card p-3"><h6>Total Amount</h6><h4>₹{{ totals.amount|default:0 }}</h4></div></div>
+</div>
+<div class="card p-3">
+    <table class="table table-striped"><thead><tr><th>Date</th><th>Shift</th><th>Liters</th><th>Fat%</th><th>Rate</th><th>Amount</th></tr></thead>
+    <tbody>{% for e in entries %}<tr><td>{{ e.date }}</td><td>{{ e.get_shift_display }}</td><td>{{ e.quantity_liters }}</td><td>{{ e.fat_percent }}</td><td>₹{{ e.rate_per_liter }}</td><td>₹{{ e.total_amount }}</td></tr>{% empty %}<tr><td colspan="6">No entries.</td></tr>{% endfor %}</tbody></table>
+</div>
+{% endblock %}
